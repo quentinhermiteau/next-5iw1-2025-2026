@@ -18,6 +18,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -30,6 +31,7 @@ const formSchema = z.object({
 
 export default function Login() {
   const router = useRouter();
+  const t = useTranslations("login");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -45,7 +47,7 @@ export default function Login() {
       body: JSON.stringify(values),
     }).then(({ status }) => {
       if (status === 200) {
-        router.push("/dashboard");
+        router.push("/admin");
         toast.success("User logged in");
       }
     });
@@ -65,7 +67,7 @@ export default function Login() {
                 name="username"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Username</FormLabel>
+                    <FormLabel>{t("username")}</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -78,7 +80,7 @@ export default function Login() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>{t("password")}</FormLabel>
                     <FormControl>
                       <Input {...field} type="password" />
                     </FormControl>
@@ -86,12 +88,12 @@ export default function Login() {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Submit</Button>
+              <Button type="submit">{t("submit")}</Button>
             </form>
             <p>
-              Don't have an account?
+              {t("dont_have_account")}
               <Button variant="link" asChild>
-                <Link href="/register">Register</Link>
+                <Link href="/register">{t("register")}</Link>
               </Button>
             </p>
           </Form>

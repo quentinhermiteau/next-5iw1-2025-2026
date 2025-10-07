@@ -1,5 +1,8 @@
 "use server";
 
+import { User } from "lucide-react";
+import { setRequestLocale } from "next-intl/server";
+
 import SidebarFooter from "@/components/Sidebar/Footer";
 import {
   Sidebar,
@@ -11,21 +14,22 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { User } from "lucide-react";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import Link from "next/link";
+
+export async function generateStaticParams() {
+  return Promise.resolve([{ locale: "fr" }, { locale: "en" }]);
+}
 
 export default async function AuthedLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }) {
-  const cookieStore = await cookies();
-  const { value } = cookieStore.get("isAuthed") || { value: "false" };
+  const { locale } = await params;
 
-  if (value !== "true") {
-    redirect("/login");
-  }
+  setRequestLocale(locale);
 
   return (
     <div>
@@ -36,10 +40,10 @@ export default async function AuthedLayout({
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/users">
+                  <Link href="/admin/users">
                     <User />
                     <span>Utilisateurs</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

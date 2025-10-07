@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     return new Response("User not found", { status: 404 });
   }
 
-  const isPasswordValid = await bcrypt.compare(body.password, user.password);
+  const isPasswordValid = await bcrypt.compare(body.password, user.password!);
 
   if (!isPasswordValid) {
     return new Response("Invalid password", { status: 401 });
