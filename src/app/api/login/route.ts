@@ -21,5 +21,9 @@ export async function POST(request: Request) {
     return new Response("Invalid password", { status: 401 });
   }
 
-  return new Response("Login successful");
+  return new Response("Login successful", {
+    headers: {
+      "Set-Cookie": `isAuthed=true; Path=/; HttpOnly; Secure; SameSite=Strict`,
+    },
+  });
 }
