@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import { useLocale } from "next-intl";
 import { useState } from "react";
 
 import { invalidateCache } from "@/actions/cache";
@@ -9,6 +10,7 @@ import { Input } from "@/components/ui/input";
 
 export default function UserAdd() {
   const [username, setUsername] = useState("");
+  const locale = useLocale();
 
   const addUser = () => {
     fetch("/api/users", {
