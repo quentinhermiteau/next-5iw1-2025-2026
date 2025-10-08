@@ -10,7 +10,7 @@ export async function generateStaticParams() {
 }
 
 export default async function UsersPage() {
-  const users = await fetch("http://localhost:3000/api/users")
+  const users = await fetch("/api/users")
     .then((res) => res.json())
     .catch((err) => {
       console.error(err);
